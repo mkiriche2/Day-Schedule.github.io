@@ -3,171 +3,53 @@ $(document).ready(function () {
     $('#currentDay').html(a);
     var x = moment().format('h : mm a');
     // $('.hour').html(x);
+    hourBlocks();
+    $(document).on('click', '.saveBtn', function (event) {
 
-    //var currentTime = moment().format('h : mm a');
-    //moment.duration(1, 'hours');
+        var previousElements = $(this).prevAll();
 
-    // var time = function () {
-    // //     if (x = momentTime3)
-    // var momentTime = moment("15:00", 'HH:mm')
-    //     let laterMomentTime3 = moment("16:00", 'HH:mm');
-    //     if (momentTime3.isBefore(laterMomentTime3)) {
-    //         $("#3").removeClass("present").addClass("future");
+        var userInput = $(previousElements[0]).children().first().val();
+        var time = $(previousElements[1]).html();
+        localStorage.setItem(time, userInput);
 
+        console.log(time)
+        console.log(userInput)
+    });
 
-    //     }
-
-    // }
-    // time();
-
-    // var block = moment.duration(1,'hours');
-
-
-    // if( x > momentTime){
-    //     $("#3").removeClass("present").addClass("past");
-
-    // }
-
-
-    // var a = (moment().hour());
-
-    // var array = ['9', '10', '11', '12', '13', '14', '15', '16', '17']
-    // for (var i = 0; i < array.length; i++) {
-    //     var b = moment().hour(array[i]);
-    // }
-
-    // function test() {
-    //     var a = (moment().hour());
-    //     var array = ['9', '10', '11', '12', '13', '14', '15', '16', '17']
-    //     for (var i = 0; i < array.length; i++) {
-    //         var val = array[i] ;
-    //     }
-    //     var b = (moment().hour(val));
-    //     // console.log(b);
-    //     if (a > b) {
-    //         $("#3").removeClass("present").addClass("past");
-    //     }
-    // }
-    // test();
-
-   
- 
-    // function test (){
-    // var x = moment().format('h : mm a');
-    // var b = moment().subtract(1, 'hours').format('h : mm a')
-    // console.log(x);
-    // console.log(b);
-    // if ( x > b ){                              
-    //     $("#3").removeClass("present").addClass("past");
-    // }
-    // } 
-    // test();
-    // function test() {
-    //     var a = moment().hour('h : mm a');
-    //     console.log(a);
-    //     var array = ['9', '10', '11', '12', '13', '14', '15', '16', '17']
-    //     for (var i = 0; i < array.length; i++) {
-    //         var val = array[i] ;
-    //     }
-    //     var b = (moment().hour(val));
-    //     console.log(b);
-    //     if (a > b) {
-    //         $("#3").removeClass("present").addClass("past");
-    //     }
-    // }
-    // test();
-
-//     function please (){
-//     var a = moment().hour('h : mm a');
-//     var b = moment().hour(21);
-//     console.log(a);
-//     console.log(b);
-//     if (a = b){
-//         console.log('hey girl hey');
-//     }
-// }
-//     please();
-
-    function test() {
-            var a = moment().hour('h : mm a');
-            // console.log(a);
-            var array = ['9', '10', '11', '12', '13', '14', '15', '16', '17']
-            for (var i = 0; i < array.length; i++) {
-                var val = array[i] ;
+    function hourBlocks() {
+        var workHour = 9;
+        var colorClass = '';
+        while (workHour < 18) {
+            var currentHour = moment().hour();
+            var colorClass = '';
+            if ((workHour - currentHour) < 0) {
+                colorClass = 'past';
+            } else if (workHour === currentHour) {
+                colorClass = 'present';
+            } else {
+                colorClass = 'future';
             }
-            var b = (moment().hour(val));
-            // console.log(b);
-            if (a > b) {
-                $("#9").removeClass("present future").addClass("past");
-                $("#10").removeClass("present future").addClass("past");
-                $("#11").removeClass("present future").addClass("past");
-                $("#12").removeClass("present future").addClass("past");
-                $("#1").removeClass("present future").addClass("past");
-                $("#2").removeClass("present future").addClass("past");
-                $("#3").removeClass("present future").addClass("past");
-                $("#4").removeClass("present future").addClass("past");
-                $("#5").removeClass("present future").addClass("past");
-            }else if (a < b){
-                $("#9").removeClass("present past").addClass("future");
-                $("#10").removeClass("present past").addClass("future");
-                $("#11").removeClass("present past").addClass("future");
-                $("#12").removeClass("present past").addClass("future");
-                $("#1").removeClass("present past").addClass("future");
-                $("#2").removeClass("present past").addClass("future");
-                $("#3").removeClass("present past").addClass("future");
-                $("#4").removeClass("present past").addClass("future");
-                $("#5").removeClass("present past").addClass("future");
-            } else if (a = b){
-            $("#9").removeClass("").addClass("present");
-            $("#10").removeClass("future past").addClass("present");
-            $("#11").removeClass("future past").addClass("present");
-            $("#12").removeClass("future past").addClass("present");
-            $("#1").removeClass("future past").addClass("present");
-            $("#2").removeClass("future past").addClass("present");
-            $("#3").removeClass("future past").addClass("present");
-            $("#4").removeClass("future past").addClass("present");
-            $("#5").removeClass("future past").addClass("present");
-            }
+
+            var existingPlanInStorage = localStorage.getItem(workHour);
+            var existingPlan = '';
+
+            if (existingPlanInStorage != null)
+                existingPlan = existingPlanInStorage;
+
+            $('#timeblocks').append(`<div class='row time-block' id='hour-${workHour}'>
+            <div class='col-md-1 hour'>${workHour}</div>
+            <div class='col-md-10 divider ${colorClass}'>
+                <textarea class='description' cols='100%' id='planner-${workHour}'>${existingPlan}</textarea>
+            </div>
+            <div class='col-md-1 saveBtn btn btn-primary'>
+                SAVE
+            </div>
+            `)
+            workHour++;
         }
-        test();
+    }
 
 
-    // var bigBoy = function () {
-    //     var a = (moment().hour());
-    //     var array = ['9', '10', '11', '12', '13', '14', '15', '16', '17']
-    //     for (var i = 0; i < array.length; i++) {
-    //         var b = (moment().hour(array[i]));
-    //     }
-    // var past = function () {
-    //     var a = (moment().hour());
-    //     var array = ['9', '10', '11', '12', '13', '14', '15', '16', '17']
-    //     for (var i = 0; i < array.length; i++) {
-    //         var b = (moment().hour(array[i]));
-    //         if (a > b) {
-    //             $('#1').removeClass('present').addClass('past');
-    //         }
-
-    //     }
-    // }
-    // past();
-
-    //     var present = function () {
-    //         while (a === b) {
-    //             $('#1').removeClass('past future').addClass('present');
-    //         }
-    //     }
-    //     present();
-
-    //     var future = function (){
-    //         while (a< b){
-    //             $('#1').removeClass('past present').addClass('future'); 
-    //         }
-    //     }
-    //     future();
-    // }
-
-
-    //   bigBoy();
 
 });
 
@@ -179,6 +61,41 @@ $(document).ready(function () {
 
 
 
+
+
+    //     var test = function () {
+    //          var time = 9;
+    //          var times = moment().hour(time);
+    //         while (time < 18){  
+    //             // var time = 9;
+    //              var times = moment().hour(time);
+    //             var currentTime = moment().hour('h : mm ');
+    //             if (currentTime > times) {
+    //                 $("#timeblocks").removeClass("present future").addClass("past");
+    //             } else if(currentTime = times){
+    //                  $("#timeblocks").removeClass("future past").addClass("present");
+
+    //              } else if (currentTime < times){
+    //                 $("#timeblocks").removeClass("present past").addClass("future");
+    //             }
+    //         $('#timeblocks').append(`<div class = 'row'>
+    //         <div class = 'col-md-1 hour description'> ${times} 
+    //         </div>
+    //         <div class = 'col-md-10 divider'>
+    //           <textarea id= 'user'></textarea>
+    //         </div>
+    //         <div class = 'col-md-1 saveBtn saveBtn i:hover btn btn-primary' id='save'>
+    //             SAVE
+    //         </div>`)
+    //          time++
+    //             }
+
+    //     }
+
+
+
+
+    //    test();
 
 
 
